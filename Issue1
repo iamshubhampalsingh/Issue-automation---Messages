@@ -1,0 +1,17 @@
+import uiautomator2 as ui2
+import time
+
+# Device serial number
+device_serial = "192.168.2.138:5555"
+
+# Create a Device object for the device
+receiver_device = ui2.Device(device_serial)
+time.sleep(2)
+receiver_device.app_start("com.whatsapp")
+time.sleep(2)
+receiver_device(resourceId="com.whatsapp:id/conversations_row_contact_name", text="Dvs").click()
+time.sleep(2)
+receiver_device(resourceId="com.whatsapp:id/camera_btn").click()
+time.sleep(2)
+# Run ADB command in Jupyter notebook cell
+!adb shell dumpsys media.camera
