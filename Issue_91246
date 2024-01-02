@@ -7,10 +7,22 @@ device_serial = "192.168.2.138:5555"
 # Create a Device object for the device
 receiver_device = ui2.Device(device_serial)
 
-receiver_device.app_start("com.google.android.contacts")
+receiver_device(text="Messages").click()
 time.sleep(2)
-if receiver_device.xpath('//*[@resource-id="com.google.android.contacts:id/contacts"]/android.widget.FrameLayout[1]/android.widget.ImageView[1]').exists:
+receiver_device(resourceId="com.google.android.apps.messaging:id/conversation_name", text="AAAAA").click()
+time.sleep(2)
+receiver_device(resourceId="com.google.android.apps.messaging:id/plus_button").click()
+time.sleep(2)
+receiver_device(resourceId="com.google.android.apps.messaging:id/shortcut_title", text="Contacts").click()
+time.sleep(2)
+if receiver_device(text="Choose a contact").exists():
     print("We are in contact interface")
 else:
     print("We are not in contact interface")
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
 receiver_device(resourceId="com.android.systemui:id/back").click()
