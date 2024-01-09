@@ -1,0 +1,31 @@
+import uiautomator2 as ui2
+import time
+
+# Connect to the device
+receiver_device_serial = "192.168.2.97:5555"
+receiver_device = ui2.connect(receiver_device_serial)
+receiver_device(text="Gmail").long_click()
+time.sleep(2)
+receiver_device.xpath('//*[@resource-id="com.android.launcher3:id/popup_container"]/android.widget.FrameLayout[1]').click();
+time.sleep(2)
+receiver_device.xpath('//*[@resource-id="com.android.launcher3:id/widgets_table"]/android.widget.TableRow[1]/com.android.launcher3.widget.WidgetCell[1]/android.widget.FrameLayout[1]').long_click()
+time.sleep(2)
+receiver_device(resourceId="com.google.android.gm:id/mailbox_name", text="testsingh1907@gmail.com").click()
+receiver_device(resourceId="com.google.android.gm:id/name", text="Primary").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/center_group").click()
+time.sleep(2)
+receiver_device(resourceId="com.google.android.gm:id/widget_compose").click()
+time.sleep(2)
+receiver_device.xpath('//*[@resource-id="com.google.android.gm:id/peoplekit_autocomplete_chip_group"]/android.widget.EditText[1]').click()
+receiver_device.send_keys("testsingh3108@gmail.com", clear=True)
+time.sleep(2)
+receiver_device(resourceId="com.google.android.gm:id/peoplekit_listview_row_avatar").click()
+time.sleep(2)
+receiver_device(resourceId="com.google.android.gm:id/subject").click()
+receiver_device.send_keys("Greet", clear=True)
+time.sleep(2)
+receiver_device.xpath('//*[@resource-id="com.google.android.gm:id/wc_body_layout"]/android.webkit.WebView[1]').click()
+receiver_device.send_keys("hello world", clear=True)
+time.sleep(2)
+receiver_device(resourceId="com.google.android.gm:id/send").click()
