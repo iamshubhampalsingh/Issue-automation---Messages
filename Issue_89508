@@ -1,0 +1,44 @@
+import uiautomator2 as ui2
+import time
+
+def check_auto_rotation(device):
+    # Open the settings app (you may need to adapt this based on your device)
+    device.press("home")
+    device(text="Settings").click()
+    
+    # Navigate to the Display settings (you may need to adapt this based on your device)
+    device(scrollable=True).scroll.to(text="Display")
+    device(text="Display").click()
+    
+    # Check the current state of auto-rotation
+    device(scrollable=True).scroll.to(text="Auto-rotate screen")
+    time.sleep(2)
+    auto_rotation_state = device(text="Auto-rotate screen").right(resourceId="android:id/switch_widget").info["text"]
+    
+    # Print the current state
+    print(f"Auto-rotation is {'enabled' if auto_rotation_state == 'ON' else 'disabled'}")
+    time.sleep(2)
+     # Toggle auto-rotation
+    device(text="Auto-rotate screen").click()
+    time.sleep(2)
+    current_orientation = receiver_device.orientation
+    print(f"Current device orientation: {current_orientation}")
+    time.sleep(10)
+    print("please change device orientation")
+    time.sleep(4)
+    current_orientation = receiver_device.orientation
+    print(f"Current device orientation: {current_orientation}")
+    if receiver_device.orientation ==  current_orientation:
+                print("Auto-rotation test passed: Device successfully rotated to landscape mode.")
+    else:
+                print("Auto-rotation test failed: Device did not rotate to landscape mode.")
+
+    # Go back to the home screen
+    device.press("home")
+
+# Connect to the device
+receiver_device_serial = "192.168.2.98:5555"
+receiver_device = ui2.Device(receiver_device_serial)
+
+# Perform the check
+check_auto_rotation(receiver_device)
