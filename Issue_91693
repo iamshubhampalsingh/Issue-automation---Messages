@@ -1,0 +1,67 @@
+Please help to find the high priority test case detail review below:
+
+Test Case title: Automating Script for Camera Interface Identification in order to rectify lag issue.
+
+Preconditions:
+•	Sim cards should be inserted.
+•	Google photos app should be updated. 
+
+Automation Script Steps:
+1.	Create Device Object.
+2.	Interact with Camera App.
+3.	Initialize Counters: Initialize counters to keep track of how many times the camera interface is identified or not identified in the loop.
+4.	Loop 10 Times.
+5.	Print Counts: Print the counts of identified and not identified instances after the loop.
+6.	Go Back in the System UI.
+
+Expected Results:
+1.	The script will attempt to open the Camera interface on the Android device.
+2.	It will then try to identify the Camera interface by checking the existence of a specific UI element related to the Google Photos app.
+3.	The script will repeat this process in a loop for 10 iterations.
+4.	After the loop, it will print the counts of how many times the Camera interface was identified and how many times it was not identified.
+
+Automation script outcome for above test case:
+import uiautomator2 as ui2
+import time
+
+# Device serial number
+device_serial = "192.168.2.185:5555"
+
+# Create a Device object for the device
+receiver_device = ui2.Device(device_serial)
+
+receiver_device.xpath('//*[@text="Camera"]').click()
+time.sleep(2)
+receiver_device.xpath('//*[@resource-id="com.android.camera:id/shutter_button"]').click()
+time.sleep(3)
+receiver_device(resourceId="com.android.camera:id/rounded_thumbnail_view").click()
+
+# Initialize counters
+identified_count = 0
+not_identified_count = 0
+
+# Loop 10 times
+for i in range(1, 11):
+    if receiver_device(resourceId="com.google.android.apps.photos:id/video_player_controller_fragment_container").exists():
+        print(f"Camera interface identified in iteration {i}")
+        identified_count += 1
+        
+    else:
+        print(f"Camera interface not identified in iteration {i}")
+        not_identified_count += 1
+       
+    # Introduce a delay between iterations if needed
+    time.sleep(2)
+
+# Print the counts after the loop
+print(f"Camera interface identified {identified_count} times")
+print(f"Camera interface not identified {not_identified_count} times")
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+
+Conclusion:
+
+1.	The script identified count and not identified count provide insights into the success or failure of the Camera interface detection during the iterations.
+2.	We can use the basic coding of this script to identify lagging issues for other application or module by using loop method.
