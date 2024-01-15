@@ -1,0 +1,39 @@
+import uiautomator2 as ui2
+import time
+
+# Device serial number
+device_serial = "192.168.2.185:5555"
+
+# Create a Device object for the device
+receiver_device = ui2.Device(device_serial)
+
+# Open settings
+receiver_device(text="Camera").click()
+time.sleep(2)
+# Set starting and ending coordinates for the swipe action
+start_x, start_y = 800, 500  # Starting point
+end_x, end_y = 200, 500      # Ending point (swiping to the left)
+
+# Number of times to perform the left swipe
+swipe_count = 3  # Adjust this number based on your requirement
+
+# Perform left swipe action multiple times
+for _ in range(swipe_count):
+    # Swipe from right to left
+    receiver_device.swipe(start_x, start_y, end_x, end_y)
+if receiver_device(text="Face Beauty").exists():
+    print("Face beauty present in rear mode")
+time.sleep(2)
+receiver_device(resourceId="com.android.camera:id/switch_camera_button").click()
+time.sleep(2)
+if receiver_device(text="Face Beauty").exists():
+    print("Face beauty present in front mode")
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
