@@ -1,0 +1,46 @@
+import uiautomator2 as ui2
+import time
+import cv2
+import numpy as np
+
+# Device serial number
+device_serial = "192.168.2.193:5555"
+
+# Create a Device object for the device
+receiver_device = ui2.Device(device_serial)
+
+# WhatsApp package name and activity name
+whatsapp_package_name = "com.whatsapp"
+whatsapp_activity_name = "com.whatsapp.HomeActivity"
+
+# Start WhatsApp
+receiver_device.app_start(whatsapp_package_name, whatsapp_activity_name)
+time.sleep(2)
+receiver_device(resourceId="com.whatsapp:id/contact_photo", description="AAAAA").click()
+time.sleep(2)
+receiver_device(resourceId="com.whatsapp:id/video_call_btn").click()
+time.sleep(2)
+
+# Take a screenshot
+screenshot = receiver_device.screenshot(format="opencv")
+
+# Convert the screenshot to grayscale
+gray_screenshot = cv2.cvtColor(screenshot, cv2.COLOR_BGR2GRAY)
+
+# Calculate the average darkness of the pixels
+average_darkness = np.average(gray_screenshot)
+
+# Define a threshold for determining if the screen has a dark shade
+darkness_threshold = 50  # Adjust as needed
+
+# Check if the average darkness is below the threshold
+if average_darkness < darkness_threshold:
+    print("The screen has a dark shade.")
+else:
+    print("The screen does not have a dark shade.")
+time.sleep(2)
+receiver_device(resourceId="com.whatsapp:id/footer_end_call_btn").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
+time.sleep(2)
+receiver_device(resourceId="com.android.systemui:id/back").click()
