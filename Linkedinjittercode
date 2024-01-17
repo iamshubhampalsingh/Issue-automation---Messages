@@ -1,0 +1,43 @@
+import subprocess
+import time
+import cv2
+import numpy as np
+
+# Device serial number
+device_serial = "192.168.2.148:5555"
+
+# Function to perform a fast downward scroll in one go
+def fast_scroll_down():
+    # Simulate scrolling action (adjust as needed)
+    # Example: You may need to perform a swipe gesture using ADB
+    subprocess.run(["adb", "-s", device_serial, "shell", "input", "swipe", "100", "500", "100", "100", "20"])
+
+# Function to capture a screenshot and convert to numpy array
+def capture_screenshot():
+    # Capture screenshot using ADB screencap command
+    screenshot_raw = subprocess.run(["adb", "-s", device_serial, "exec-out", "screencap", "-p"], capture_output=True).stdout
+    screenshot_np = cv2.imdecode(np.frombuffer(screenshot_raw, np.uint8), cv2.IMREAD_COLOR)
+    return cv2.cvtColor(screenshot_np, cv2.COLOR_BGR2RGB)
+
+# Open LinkedIn (adjust this based on your app's UI)
+receiver_device(text="LinkedIn").click()
+time.sleep(2)
+
+# Capture initial screenshot
+previous_screenshot = capture_screenshot()
+
+
+# Scroll down and check for jitters
+while True:
+    fast_scroll_down()
+     # Adjust the sleep time between scrolls based on your app's responsiveness
+
+    # Capture current screenshot
+    current_screenshot = capture_screenshot()
+
+    # Compare screenshots for jitters
+    if not np.array_equal(previous_screenshot, current_screenshot):
+        print("Jitter detected!")
+
+    # Update previous screenshot
+    previous_screenshot = current_screenshot
