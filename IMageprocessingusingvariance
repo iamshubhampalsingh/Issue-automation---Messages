@@ -1,0 +1,21 @@
+import cv2
+def is_blurred(image, threshold=100):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+   
+    laplacian = cv2.Laplacian(gray, cv2.CV_64F)
+    
+    
+    variance = laplacian.var()
+    
+    
+    return variance < threshold
+
+
+image = cv2.imread(r'c:\Users\c_divyendu\Desktop\Closing photo.png')
+
+
+if is_blurred(image):
+    print("The image is blurred.")
+else:
+    print("The image is not blurred.")
